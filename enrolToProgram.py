@@ -33,4 +33,3 @@ def enrolToProgram(url, pid, userid, timestart=None, periodtype=None, timeend=No
     print(json.loads(response.text))
 
 enrolToProgram('https://sdo.ippss.ru', 14852, 276805)
-print()
