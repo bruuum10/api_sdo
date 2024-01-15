@@ -22,7 +22,7 @@ def open_session(url):
 # Если не передать timeend, то дата и время будет расчитано исходя из длительности программы в настройках
 # periodtype  – устанавливает тип обучения слушателя по программе. Нормативный (normal) или ускоренный (short).
 # Если параметр periodtype не передается, то тип обучения берется из настроек УЦ
-def enrolToProgram(url, pid, userid, timestart=None, periodtype=None, timeend=None):
+def enrolToProgram(url, userid, pid, timestart=None, periodtype=None, timeend=None):
     idsession = open_session(url)
     with open('keys.txt') as file:
         secret = file.readlines()[1].rstrip("\n")
@@ -41,4 +41,5 @@ def enrolToProgram(url, pid, userid, timestart=None, periodtype=None, timeend=No
 
 
 if __name__ == '__main__':
-    enrolToProgram('https://sdo.ippss.ru', 14852, 240349)
+    enrolToProgram('https://sdo.vgaps.ru', 696049, 12)
+    enrolToProgram('https://sdo.urgaps.ru', 696049, 262)

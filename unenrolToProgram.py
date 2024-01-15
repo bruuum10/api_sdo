@@ -18,7 +18,7 @@ def open_session(url):
 
 # отписка студента от программы
 
-def unenrolToProgram(url, pid, userid):
+def unenrolToProgram(url, userid, pid):
     idsession = open_session(url)
     with open('keys.txt') as file:
         secret = file.readlines()[1].rstrip("\n")
@@ -30,5 +30,5 @@ def unenrolToProgram(url, pid, userid):
     print(json.loads(response.text))
 
 if __name__ == '__main__':
-    unenrolToProgram('https://sdo.niidpo.ru', 696049, 1281)
-    unenrolToProgram('https://sdo.mcdo.moscow', 696049, 2169)
+    unenrolToProgram('https://sdo.vgaps.ru', 696049, 12)
+    unenrolToProgram('https://sdo.urgaps.ru', 696049, 262)
