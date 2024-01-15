@@ -16,7 +16,12 @@ def open_session(url):
     return idsession
 
 
-# выполнение операции
+# запись студента на программу
+# timestart и timeend дата и время в формате UNIXTIME (поля не обязательные).
+# Если не передать timestart, то подставится текущее время
+# Если не передать timeend, то дата и время будет расчитано исходя из длительности программы в настройках
+# periodtype  – устанавливает тип обучения слушателя по программе. Нормативный (normal) или ускоренный (short).
+# Если параметр periodtype не передается, то тип обучения берется из настроек УЦ
 def enrolToProgram(url, pid, userid, timestart=None, periodtype=None, timeend=None):
     idsession = open_session(url)
     with open('keys.txt') as file:
@@ -36,4 +41,4 @@ def enrolToProgram(url, pid, userid, timestart=None, periodtype=None, timeend=No
 
 
 if __name__ == '__main__':
-    enrolToProgram('https://sdo.ippss.ru', 14852, 276805)
+    enrolToProgram('https://sdo.ippss.ru', 14852, 240349)
