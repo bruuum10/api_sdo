@@ -3,28 +3,18 @@ import json
 import pprint
 import hashlib
 from collections import OrderedDict
+import config
+from dotenv import load_dotenv
+import os
+from open_session import open_session
 
-
-# открытие сессии
-def open_session(url):
-    action = "open"
-    with open('keys.txt') as file:
-        secret_open = file.readlines()[0].rstrip("\n")
-    form = f"{secret_open}{action}"
-    salt = hashlib.md5(form.encode('utf-8')).hexdigest()
-    params = {"action": action, "salt": salt}
-    response = requests.get(url+"/local/api/run.php", params)
-    idsession = response.json()["transaction"]
-    return idsession
-
-
-# выполнение операции
 # если нет userids, то происходит выборка всех пользователей, у которых заполнено поле снилс
-def getSnilsData(url, userids=None):
-    idsession = open_session(url)
-    with open('keys.txt') as file:
-        secret = file.readlines()[1].rstrip("\n")
-        action = getSnilsData.__name__
+def getSnilsData(org, userids=None):
+    url = config.getOrgsFromShortName(org)
+    idsession = open_session(url) #открытие сессии
+    load_dotenv()
+    secret = os.getenv("secret")
+    action = getSnilsData.__name__
     form = f"{secret}{action}{idsession}"
     salt = hashlib.md5(form.encode('utf-8')).hexdigest()
     params = {"action": action, "salt": salt}
@@ -34,6 +24,5 @@ def getSnilsData(url, userids=None):
     inf = json.loads(response.text, object_pairs_hook=OrderedDict)
     pprint.pprint(inf)
 
-
 if __name__ == '__main__':
-    getSnilsData('https://sdo.vgaps.ru', "238211,624040")
+    getSnilsData('vgaps', "238211,624040")

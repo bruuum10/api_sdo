@@ -3,18 +3,6 @@ import json
 import hashlib
 
 
-# открытие сессии
-def open_session(url):
-    action = "open"
-    with open('keys.txt') as file:
-        secret_open = file.readlines()[0].rstrip("\n")
-    form = f"{secret_open}{action}"
-    salt = hashlib.md5(form.encode('utf-8')).hexdigest()
-    params = {"action": action, "salt": salt}
-    response = requests.get(url+"/local/api/run.php", params)
-    idsession = response.json()["transaction"]
-    return idsession
-
 
 # отписка студента от программы
 

@@ -3,28 +3,18 @@ import json
 import pprint
 import hashlib
 from collections import OrderedDict
+import config
+from dotenv import load_dotenv
+import os
+from open_session import open_session
 
-
-# открытие сессии
-def open_session(url):
-    action = "open"
-    with open('keys.txt') as file:
-        secret_open = file.readlines()[0].rstrip("\n")
-    form = f"{secret_open}{action}"
-    salt = hashlib.md5(form.encode('utf-8')).hexdigest()
-    params = {"action": action, "salt": salt}
-    response = requests.get(url+"/local/api/run.php", params)
-    idsession = response.json()["transaction"]
-    return idsession
-
-
-# выполнение операции
 # Если не переданы даты, то происходит выборка квитанций за последние 24 часа.
-def getKvitancia(url, startdate=None, enddate=None):
-    idsession = open_session(url)
-    with open('keys.txt') as file:
-        secret = file.readlines()[1].rstrip("\n")
-        action = getKvitancia.__name__
+def getKvitancia(org, startdate=None, enddate=None):
+    url = config.getOrgsFromShortName(org)
+    idsession = open_session(url)  # открытие сессии
+    load_dotenv()
+    secret = os.getenv("secret")
+    action = getKvitancia.__name__
     form = f"{secret}{action}{idsession}"
     salt = hashlib.md5(form.encode('utf-8')).hexdigest()
     params = {"action": action, "salt": salt}
@@ -38,4 +28,4 @@ def getKvitancia(url, startdate=None, enddate=None):
 
 
 if __name__ == '__main__':
-    getKvitancia('https://sdo.pentaschool.ru', 1686517200, 1688418000)
+    getKvitancia('vgaps', 1686517200, 1688418000)
